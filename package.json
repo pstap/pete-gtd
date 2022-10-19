@@ -10,9 +10,11 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "pouchdb": "*",
+    "@types/pouchdb": "*",
     "@types/pouchdb-core": "*",
-    "@types/pouchdb": "*"  
+    "@types/uuid": "^8.3.4",
+    "pouchdb": "*",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.2",
@@ -22,6 +24,6 @@
     "svelte-preprocess": "^4.10.7",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
-    "vite": "^3.1.0"
+    "vite": "^3.1.4"
   }
 }

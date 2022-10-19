@@ -1,14 +1,15 @@
 <script lang="ts">
+    import { makeID } from './lib/GTDID';
     import BulletEditor from './lib/BulletEditor.svelte';
     import svelteLogo from './assets/svelte.svg'
 
-    import type GTDItem from './lib/GTDItem.js';
+    import GTDItem from './lib/GTDItem';
 
     let items: GTDItem.GTDItem[] = [
-        {"text": "apples", "id": 1}, 
-        {"text": "pears", "id": 2}, 
-        {"text": "bananas", "id": 3}, 
-        {"text": "sapote", "id": 4},
+        new GTDItem.GTDItem("apples"), 
+        new GTDItem.GTDItem("pears"),  
+        new GTDItem.GTDItem("bananas"), 
+        new GTDItem.GTDItem("sapote"),
     ];
 </script>
 

@@ -1,7 +1,8 @@
 <script lang="ts">
     import { writable } from 'svelte/store'
     import BulletEditorItem from "./BulletEditorItem.svelte";
-    import type GTDItem from './GTDItem';
+    import GTDItem from './GTDItem';
+    import { makeID } from './GTDID';
 
     export let items: GTDItem.GTDItem[];
     let activeItemIdx: number = 0;
@@ -28,26 +29,44 @@
         {
             activeItemIdxStore.update(n => clampItemIdx(n + 1));
         }
+        else if(event.key == "Enter")
+        {
+            // if we're at the end of the list, we need to make a new element
+            if(activeItemIdx == (items.length - 1))
+            {
+                items.push(new GTDItem.GTDItem(""));
+            }
+            activeItemIdxStore.update(n => clampItemIdx(n + 1));
+        }
+        else if(event.key == "Backspace")
+        {
+            // empty item, remove it
+            if(items[activeItemIdx].text.length == 0)
+            {
+                // remove item
+                items.splice(activeItemIdx, 1);
+                activeItemIdxStore.update(n => clampItemIdx(n - 1));
+            }
+        }
     }
 
-    function focusItem(idx: number) {
-
+    function focusItem(node: HTMLInputElement) {
+        node.focus();
     }
 
     activeItemIdxStore.subscribe(value => activeItemIdx = value);
-    activeItemIdxStore.subscribe(value => focusItem(value));
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
   
 <ul>
-    {#each items as item (item.id)}
+    {#each items as item, i}
         {#if i == activeItemIdx}
             <li>
-                <input type="text" bind:value={item.text}>
+                ({items[i].id}) <input type="text" bind:value={item.text} use:focusItem>
             </li>
         {:else}
-            <li>{items.text}</li>
+            <li>({items[i].id}) {items[i].text}</li>
         {/if}
     {/each}
 </ul>
